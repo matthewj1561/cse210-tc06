@@ -14,21 +14,23 @@ class Board():
 
     """
 
-    def __init__(self):
-        """
+    def __init__(self, player1, player2):
+        """Class constructor. 
 
         Args:
-            self (Board):
+            self (Board): An instance of the Board class.
+        """
+        player1.name = player1.get_name()
+        
 
-        """
-        pass
-
-    def create_board(self):
-        """
-        """
-        pass
+        player2.name = player2.get_name()
 
     def update_board(self):
+        """
+        """
+        pass
+
+    def create_board_string(self):
         """
         """
         pass
