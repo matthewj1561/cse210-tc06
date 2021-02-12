@@ -2,7 +2,7 @@ from game.roster import Roster
 from game.player import Player
 from game.console import Console
 from game.board import Board
-# from game.logic import Logic
+from game.logic import Logic
 
 class Director:
     """
@@ -21,10 +21,10 @@ class Director:
         self._passcode = ''
         self._player_guess = ''
         self._keep_playing = True
-        _console = Console()
-        _roster = Roster()
-        _board = Board()
-        _logic = Logic()
+        self._console = Console()
+        self._roster = Roster()
+        self._logic = Logic()
+
 
     
         
@@ -33,11 +33,11 @@ class Director:
         Starts the game loop
         """
 
-        _prepare_game()
-        while self.keep_playing:
-            self.get_input
-            self.do_updates
-            self.do_output
+        self._prepare_game()
+        while self._keep_playing:
+            self._get_input()
+            self._do_updates()
+            self._do_output()
 
     def _prepare_game(self):
         """Prepares the game before it begins. In this case, that means getting the player names and adding them to the roster.
@@ -45,11 +45,21 @@ class Director:
         Args:
         self (Director): An instance of Director.
         """
-    
+        
         for n in range(2):
             name = self._console.read(f"Enter a name for player {n + 1}: ")
             player = Player(name)
+            if n == 0:
+                player1 = player
+            else: 
+                player2 = player
             self._roster.add_player(player)
+
+        self._board = Board(player1, player2)
+        
+        
+
+            
     
 
 
@@ -57,7 +67,7 @@ class Director:
         """
         Asks the user input
         """
-        board = self._board.to_string()
+        board = self._board.create_board_string()
         self._console.write(board)
         player = self._roster.get_current()
         self._console.write(f"{player.get_name()}'s turn:")
@@ -77,7 +87,10 @@ class Director:
     def _do_output(self):
 
         ""
-        if _logic.is_correct() == True:
+
+        if self._logic.is_correct(self._player_guess) == True:
             pass
-        elif _logic.is_correct() == False:
+        elif self._logic.is_correct(self._player_guess) == False:
             self._keep_playing == False
+
+        self._roster.next_player()
