@@ -34,6 +34,6 @@ root                    (project root folder)
 
 ## Authors
 ---
-*   
+* Matthew James jam20018@byui.edu
 * Nolan Meacham mea17001@byui.edu   
 *  
