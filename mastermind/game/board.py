@@ -1,4 +1,4 @@
-import randomm
+import random
 
 class Board():
     """
