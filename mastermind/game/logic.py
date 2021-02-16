@@ -56,4 +56,4 @@ class Logic():
 test = Logic()
 
 test.set_passcode()
-print(test.get_passcode())
+#print(test.get_passcode())

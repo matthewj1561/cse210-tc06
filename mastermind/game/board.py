@@ -20,10 +20,12 @@ class Board():
         Args:
             self (Board): An instance of the Board class.
         """
-        player1.name = player1.get_name()
+        self.player1_name = player1.get_name()
         
 
-        player2.name = player2.get_name()
+        self.player2_name = player2.get_name()
+
+        self.board = []
 
     def update_board(self):
         """
@@ -33,4 +35,11 @@ class Board():
     def create_board_string(self):
         """
         """
-        pass
+         
+        self.board =["---------------------\n",
+                    f"{self.player1_name}: ----, ****\n",
+                    f"{self.player2_name}: ----, ****\n",
+                    "---------------------\n"]
+        display_board = ''.join(self.board)
+        return display_board
+

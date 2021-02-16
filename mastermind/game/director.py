@@ -50,12 +50,12 @@ class Director:
             name = self._console.read(f"Enter a name for player {n + 1}: ")
             player = Player(name)
             if n == 0:
-                player1 = player
+                self.player1 = player
             else: 
-                player2 = player
+                self.player2 = player
             self._roster.add_player(player)
 
-        self._board = Board(player1, player2)
+        self._board = Board(self.player1, self.player2)
         
         
 
@@ -67,11 +67,12 @@ class Director:
         """
         Asks the user input
         """
+        self._roster.next_player()
         board = self._board.create_board_string()
         self._console.write(board)
         player = self._roster.get_current()
         self._console.write(f"{player.get_name()}'s turn:")
-        player_guess = self._console.read("What is your guess? ")
+        self._player_guess = self._console.read("What is your guess? ")
 
 
         
@@ -81,7 +82,13 @@ class Director:
         
 
         """
-        #TODO
+        
+        if self._roster.current == 0:
+            self.player1.set_guess(self._player_guess)
+        elif self._roster.current == 1:
+            self.player2.set_guess(self._player_guess)
+        
+
         player = self._roster.get_current()
     
     def _do_output(self):
@@ -92,5 +99,3 @@ class Director:
             pass
         elif self._logic.is_correct(self._player_guess) == False:
             self._keep_playing == False
-
-        self._roster.next_player()
