@@ -26,11 +26,19 @@ class Board():
         self.player2_name = player2.get_name()
 
         self.board = []
+        
+    def update_board(self,player1_guess, player1_hint, player2_guess, player2_hint):
+        """
+        """
 
-    def update_board(self):
-        """
-        """
-        pass
+        
+        self.board =["---------------------\n",
+                    f"{self.player1_name}: {player1_guess}, {player1_hint}\n",
+                    f"{self.player2_name}: {player2_guess}, {player2_hint}\n",
+                    "---------------------\n"]
+        display_board = ''.join(self.board)
+        return display_board
+        
 
     def create_board_string(self):
         """

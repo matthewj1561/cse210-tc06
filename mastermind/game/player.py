@@ -15,8 +15,8 @@ class Player:
             self (Player): an instance of Player.
         """
         self._name = name
-        self._guess = []
-        self._hint = None
+        self._guess = '----'
+        self._hint = '****'
         
     def get_name(self):
         """Returns the player's name.
@@ -42,7 +42,7 @@ class Player:
             self (Player): an instance of Player.
             guess: a four char string for the player's guess.
         """
-        self._guess.append(guess)
+        self._guess = guess
 
     def get_hint(self):
         """Returns the player's most recent hint.

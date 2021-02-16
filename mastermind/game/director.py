@@ -56,6 +56,10 @@ class Director:
             self._roster.add_player(player)
 
         self._board = Board(self.player1, self.player2)
+
+        board = self._board.create_board_string()
+        self._console.write(board)
+        self._logic.set_passcode()
         
         
 
@@ -68,8 +72,6 @@ class Director:
         Asks the user input
         """
         self._roster.next_player()
-        board = self._board.create_board_string()
-        self._console.write(board)
         player = self._roster.get_current()
         self._console.write(f"{player.get_name()}'s turn:")
         self._player_guess = self._console.read("What is your guess? ")
@@ -82,11 +84,29 @@ class Director:
         
 
         """
-        
         if self._roster.current == 0:
             self.player1.set_guess(self._player_guess)
+            
+
+            player1_hint = self._logic.get_hint(self._logic.get_passcode(), self.player1.get_guess())
+            self.player1.set_hint(player1_hint)
+            print(self.player1.get_hint())
+
+            board = self._board.update_board(self.player1.get_guess(),self.player1.get_hint(), self.player2.get_guess(), self.player2.get_hint() )
+            self._console.write(board)
+
         elif self._roster.current == 1:
             self.player2.set_guess(self._player_guess)
+
+            player2_hint = self._logic.get_hint(self._logic.get_passcode(), self.player2.get_guess())
+            self.player2.set_hint(player2_hint)
+
+            board = self._board.update_board(self.player1.get_guess(),self.player1.get_hint(), self.player2.get_guess(), self.player2.get_hint() )
+            self._console.write(board)
+
+        
+
+        
         
 
         player = self._roster.get_current()

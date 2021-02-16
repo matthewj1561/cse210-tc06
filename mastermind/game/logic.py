@@ -8,7 +8,7 @@ class Logic():
     __hint = string that is returned for a guess
     """
     def __init__(self) -> None:
-        self.__passcode = []
+        self.__passcode = ''
         self.__hint = ""
         self.__win = False
 
@@ -18,25 +18,44 @@ class Logic():
     Inputs: self, instance of a logic class
             guess, 4 letter numeric string
     """    
-    def get_hint(self, guess):
+    def get_hint(self, code, guess):
         error = "INVALID GUESS YOU SWINE"
         number_check = guess.isnumeric()
 
         if len(guess) != 4:
+
             return error
         elif number_check is False:
+
             return error
         else:
-            return self.__hint
+            hint = ""
+            for index, letter in enumerate(guess):
+                if code[index] == letter:
+                    hint += "x"
+                elif letter in code:
+                    hint += "o"
+                else:
+                    hint += "*"
+            return hint
     """
     Sets a new passcode and assigns it to the passcode attribute
     """
     def set_passcode(self):
-        self.__passcode = []
-
+        list_passcode = []
+        
         for i in range(4):
             number = rand.randint(0,9)
-            self.__passcode.append(number)
+            list_passcode.append(number)
+        list_passcode = str(list_passcode)
+
+
+        for elm in list_passcode:
+            self.__passcode += elm
+
+
+        
+
         
 
     def get_passcode(self):
@@ -52,8 +71,3 @@ class Logic():
         
         if self.__passcode == guess:
             pass
-
-test = Logic()
-
-test.set_passcode()
-#print(test.get_passcode())
