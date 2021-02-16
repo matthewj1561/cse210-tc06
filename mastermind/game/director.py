@@ -24,7 +24,7 @@ class Director:
         self._console = Console()
         self._roster = Roster()
         self._logic = Logic()
-
+        self.current_player = None
 
     
         
@@ -34,7 +34,7 @@ class Director:
         """
 
         self._prepare_game()
-        while self._keep_playing:
+        while self._keep_playing == True:
             self._get_input()
             self._do_updates()
             self._do_output()
@@ -59,8 +59,8 @@ class Director:
 
         board = self._board.create_board_string()
         self._console.write(board)
-        self._logic.set_passcode()
-        
+        self._logic.set_passcode()      
+        print(self._logic.get_passcode())  
         
 
             
@@ -72,8 +72,8 @@ class Director:
         Asks the user input
         """
         self._roster.next_player()
-        player = self._roster.get_current()
-        self._console.write(f"{player.get_name()}'s turn:")
+        self.current_player = self._roster.get_current()
+        self._console.write(f"{self.current_player.get_name()}'s turn:")
         self._player_guess = self._console.read("What is your guess? ")
 
 
@@ -114,8 +114,9 @@ class Director:
     def _do_output(self):
 
         ""
-
+        print(self._logic.is_correct(self._player_guess))
         if self._logic.is_correct(self._player_guess) == True:
-            pass
+            self._console.write(f'{self.current_player} wins!')
+            quit()
         elif self._logic.is_correct(self._player_guess) == False:
-            self._keep_playing == False
+            pass

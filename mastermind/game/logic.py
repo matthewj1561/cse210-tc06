@@ -9,6 +9,7 @@ class Logic():
     """
     def __init__(self) -> None:
         self.__passcode = ''
+
         self.__hint = ""
         self.__win = False
 
@@ -42,32 +43,17 @@ class Logic():
     Sets a new passcode and assigns it to the passcode attribute
     """
     def set_passcode(self):
-        list_passcode = []
-        
-        for i in range(4):
-            number = rand.randint(0,9)
-            list_passcode.append(number)
-        list_passcode = str(list_passcode)
 
 
-        for elm in list_passcode:
-            self.__passcode += elm
-
+        self.__passcode = str(rand.randint(1111,9999))
 
         
-
-        
-
     def get_passcode(self):
         return self.__passcode
 
     def is_correct(self, guess):
-        number_check = guess.isnumeric()
 
-        if len(guess) != 4:
-            return False
-        elif number_check is False:
-            return False
-        
         if self.__passcode == guess:
-            pass
+            return True
+        else:
+            return False
