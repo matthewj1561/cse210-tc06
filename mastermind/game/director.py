@@ -3,6 +3,8 @@ from game.player import Player
 from game.console import Console
 from game.board import Board
 from game.logic import Logic
+from threading import Thread
+import time
 
 class Director:
     """
@@ -50,7 +52,9 @@ class Director:
         Args:
         self (Director): An instance of Director.
         """
+
         # A simple loop to identify each player and add them to the roster
+        self._console.write("Welcome to the H.A.C.K.")
         for n in range(2):
             name = self._console.read(f"Enter a name for player {n + 1}: ")
             player = Player(name)
@@ -79,11 +83,12 @@ class Director:
 
         #Retrieves and displays whoever's turn it is
         self.current_player = self._roster.get_current()
-        self._console.write(f"{self.current_player.get_name()}'s turn:")
-
+        self._console.write(f"{self.current_player.get_name()}'s guess:")
+        Thread(target = self._console.timer_for_turn).start()
+        Thread(target = self._console.read_for_turn).start()
+        time.sleep(self._console._countdown)
         
-        self._player_guess = self._console.read("What is your guess? ")
-
+        self._player_guess = self._console._answer
     def _do_updates(self):
         """
         An in depth "if" statement that updates key game information based on the user's input and current player
@@ -119,6 +124,20 @@ class Director:
 
         if self._logic.is_correct(self._player_guess) == True:
             self._console.write(f'{self._roster.get_current().get_name()} Wins!!')
+            self._console.write("""
+___________________ __________    _____________________________________________________________
+\__    ___/\_____  \ ______   \  /   _____/\_   _____/\_   ___ \______   \_   _____/\__    ___/
+  |    |    /   |   \|     ___/  \_____  \  |    __)_ /    \  \/|       _/|    __)_   |    |   
+  |    |   /    |    \    |      /        \ |        \|     \___|    |   \|        \  |    |   
+  |____|   \_______  /____|     /_______  //_______  / \______  /____|_  /_______  /  |____|   
+                   \/                   \/         \/         \/       \/        \/            
+   _____ _____________________   _____     .____________                                       
+  /  _  \ |_____   \_   _____/  /  _  \    |   ____/_   |                                      
+ /  /_\  \|       _/|    __)_  /  /_\  \   |____  \ |   |                                      
+/    |    \    |   \|        \/    |    \  /       \|   |                                      
+\____|__  /____|_  /_______  /\____|__  / /______  /|___|                                      
+        \/       \/        \/         \/         \/                   
+            You're in...""")
             self._keep_playing = False
         
         elif self._logic.is_correct(self._player_guess) == False:
