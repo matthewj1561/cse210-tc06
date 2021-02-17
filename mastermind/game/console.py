@@ -11,7 +11,7 @@ class Console:
     """
     def __init__(self) -> None:
         self._answer = '99999'
-        self._countdown = 5
+        self._countdown = 4
  
     def read(self, prompt):
         """Gets text input from the user through the Console.
