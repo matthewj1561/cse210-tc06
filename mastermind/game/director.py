@@ -11,10 +11,14 @@ class Director:
     sequence of play.
     
     Attributes:
-        
-
-    General Workflow:
-
+        _console = An instance of the Console class
+        _logic = An instance of the Logic class
+        _roster = An instance of the Roseter class
+        _keep_playing (boolean) = Defines whether or not the game loop should continue
+        _player_guess (string) = Holds the most recent player's guess
+        _passcode (string) = The code the players are trying to guess. Since this is a static attribute, 
+                             it is convient to define it here and use it throughout the program instead of 
+                             calling the on the _logic class every time. 
     """
     def __init__(self):
 
@@ -37,12 +41,16 @@ class Director:
             self._do_output()
 
     def _prepare_game(self):
-        """Prepares the game before it begins. In this case, that means getting the player names and adding them to the roster.
-    
+        """Prepares the game before it begins. 
+           This entails :
+                Adding each play to the board
+                Creating and displaying the intial board
+                Setting the passcode
+
         Args:
         self (Director): An instance of Director.
         """
-        
+        # A simple loop to identify each player and add them to the roster
         for n in range(2):
             name = self._console.read(f"Enter a name for player {n + 1}: ")
             player = Player(name)
@@ -52,38 +60,49 @@ class Director:
                 self.player2 = player
             self._roster.add_player(player)
 
+        # Creates the board class with the two new players
         self._board = Board(self.player1, self.player2)
 
+        #Creates the first board and displays it to the terminal 
         board = self._board.create_board_string()
         self._console.write(board)
+
+        #Uses the logic class to set the passcode that will be used for the game
         self._logic.set_passcode()      
 
     def _get_input(self):
         """
-        Asks the user input
+        Asks the user for their guess each round, also switches the turns before any further actions
         """
+        #Begins the turn system
         self._roster.next_player()
+
+        #Retrieves and displays whoever's turn it is
         self.current_player = self._roster.get_current()
         self._console.write(f"{self.current_player.get_name()}'s turn:")
+
+        
         self._player_guess = self._console.read("What is your guess? ")
 
     def _do_updates(self):
         """
-        
+        An in depth "if" statement that updates key game information based on the user's input and current player
 
         """
+        # If the player is number 1, then the board is updated according to what they entered. The same is true for player 2.
         if self._roster.current == 0:
+
             self.player1.set_guess(self._player_guess)
             
 
             player1_hint = self._logic.get_hint(self._logic.get_passcode(), self.player1.get_guess())
             self.player1.set_hint(player1_hint)
-            print(self.player1.get_hint())
 
             board = self._board.update_board(self.player1.get_guess(),self.player1.get_hint(), self.player2.get_guess(), self.player2.get_hint() )
             self._console.write(board)
 
         elif self._roster.current == 1:
+
             self.player2.set_guess(self._player_guess)
 
             player2_hint = self._logic.get_hint(self._logic.get_passcode(), self.player2.get_guess())
@@ -92,15 +111,15 @@ class Director:
             board = self._board.update_board(self.player1.get_guess(),self.player1.get_hint(), self.player2.get_guess(), self.player2.get_hint() )
             self._console.write(board)
 
-        player = self._roster.get_current()
     
     def _do_output(self):
         """
-
+        Determines if the game will continue or end
         """
 
         if self._logic.is_correct(self._player_guess) == True:
             self._console.write(f'{self._roster.get_current().get_name()} Wins!!')
             self._keep_playing = False
+        
         elif self._logic.is_correct(self._player_guess) == False:
             self._keep_playing == True
