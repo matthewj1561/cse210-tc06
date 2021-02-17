@@ -24,9 +24,6 @@ class Director:
         self._console = Console()
         self._roster = Roster()
         self._logic = Logic()
-        self.current_player = None
-
-    
         
     def start_game(self):
         """
@@ -60,12 +57,6 @@ class Director:
         board = self._board.create_board_string()
         self._console.write(board)
         self._logic.set_passcode()      
-        print(self._logic.get_passcode())  
-        
-
-            
-    
-
 
     def _get_input(self):
         """
@@ -75,9 +66,6 @@ class Director:
         self.current_player = self._roster.get_current()
         self._console.write(f"{self.current_player.get_name()}'s turn:")
         self._player_guess = self._console.read("What is your guess? ")
-
-
-        
 
     def _do_updates(self):
         """
@@ -104,19 +92,15 @@ class Director:
             board = self._board.update_board(self.player1.get_guess(),self.player1.get_hint(), self.player2.get_guess(), self.player2.get_hint() )
             self._console.write(board)
 
-        
-
-        
-        
-
         player = self._roster.get_current()
     
     def _do_output(self):
+        """
 
-        ""
-        print(self._logic.is_correct(self._player_guess))
+        """
+
         if self._logic.is_correct(self._player_guess) == True:
-            self._console.write(f'{self.current_player} wins!')
-            quit()
+            self._console.write(f'{self._roster.get_current().get_name()} Wins!!')
+            self._keep_playing = False
         elif self._logic.is_correct(self._player_guess) == False:
-            pass
+            self._keep_playing == True
