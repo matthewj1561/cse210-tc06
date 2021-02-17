@@ -31,7 +31,7 @@ class Director:
         """
 
         self._prepare_game()
-        while self._keep_playing:
+        while self._keep_playing == True:
             self._get_input()
             self._do_updates()
             self._do_output()
@@ -56,15 +56,15 @@ class Director:
 
         board = self._board.create_board_string()
         self._console.write(board)
-        self._logic.set_passcode()
-        
+        self._logic.set_passcode()      
+
     def _get_input(self):
         """
         Asks the user input
         """
         self._roster.next_player()
-        player = self._roster.get_current()
-        self._console.write(f"{player.get_name()}'s turn:")
+        self.current_player = self._roster.get_current()
+        self._console.write(f"{self.current_player.get_name()}'s turn:")
         self._player_guess = self._console.read("What is your guess? ")
 
     def _do_updates(self):
