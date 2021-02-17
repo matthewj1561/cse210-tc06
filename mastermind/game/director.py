@@ -52,8 +52,9 @@ class Director:
         Args:
         self (Director): An instance of Director.
         """
-        self._console.write("Welcome to the H.A.C.K.")
+
         # A simple loop to identify each player and add them to the roster
+        self._console.write("Welcome to the H.A.C.K.")
         for n in range(2):
             name = self._console.read(f"Enter a name for player {n + 1}: ")
             player = Player(name)
@@ -86,7 +87,7 @@ class Director:
         Thread(target = self._console.timer_for_turn).start()
         Thread(target = self._console.read_for_turn).start()
         time.sleep(self._console._countdown)
-        #self._console.read("What is your guess? ")
+        
         self._player_guess = self._console._answer
     def _do_updates(self):
         """
