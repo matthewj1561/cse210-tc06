@@ -36,4 +36,4 @@ root                    (project root folder)
 ---
 * Matthew James jam20018@byui.edu
 * Nolan Meacham mea17001@byui.edu   
-*  
+* Nick Velasquez vel18013@byui.edu 
